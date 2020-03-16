@@ -11,6 +11,10 @@ app.get("/", (req, res) => {
   res.send("Hello!");
 });
 
+app.get("/urls", (req, res) => {
+  res.json(urlDataBase);
+});
+
 app.listen(PORT, () => {
   console.log(`server is running on port: ${PORT}`);
 });
