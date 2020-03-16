@@ -14,11 +14,8 @@ app.get("/", (req, res) => {
 });
 
 app.get("/urls", (req, res) => {
-  res.json(urlDataBase);
-});
-
-app.get("/hello", (req, res) => {
-  res.send("<html><body>Hello <b>World</b></body></html>\n");
+  const tamplateVars = { urls: urlDataBase };
+  res.render("urls_index", tamplateVars);
 });
 
 app.listen(PORT, () => {
