@@ -5,7 +5,7 @@ const PORT = 8080;
 app.set("view engine", "ejs");
 
 const urlDataBase = {
-  b2xVn2: "http://www.lighthouselabs.ca",
+  "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
 
@@ -18,6 +18,12 @@ app.get("/urls", (req, res) => {
   res.render("urls_index", tamplateVars);
 });
 
+app.get("/urls/:shortUrl", (req, res) => {
+  const shortUrl = req.params.shortUrl;
+  const longUrl = urlDataBase[shortUrl];
+  const tamplateVars = { shortUrl, longUrl};
+  res.render("url_show", tamplateVars);
+});
 app.listen(PORT, () => {
   console.log(`server is running on port: ${PORT}`);
 });
