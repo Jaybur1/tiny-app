@@ -25,8 +25,10 @@ app.post("/u", (req, res) => {
   const shortURL = generateRandomString();
   const longURL = req.body.longURL.substr(0,4) !== "http" ? `http://${req.body.longURL}` : req.body.longURL;
   urlDataBase[shortURL] = longURL; // Log the POST request body to the console
-  res.redirect(`/u/${shortURL}`); // Respond with 'Ok' (we will replace this)
+  res.redirect(`/u`); // Respond with 'Ok' (we will replace this)
 });
+
+
 
 app.get("/u/new", (req, res) => {
   res.render("urls_new");
@@ -42,6 +44,11 @@ app.get("/u/:shortURL", (req, res) => {
     // const tamplateVars = { shortURL, longURL };
     res.redirect(longURL);
   }
+});
+
+app.post("/u/:shortURL/delete", (req,res) => {
+  delete urlDataBase[req.params.shortURL];
+  res.redirect('/u');
 });
 
 app.listen(PORT, () => {
