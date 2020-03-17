@@ -13,26 +13,26 @@ const urlDataBase = {
 };
 
 app.get("/", (req, res) => {
-  res.redirect("/urls");
+  res.redirect("/u");
 });
 
-app.get("/urls", (req, res) => {
+app.get("/u", (req, res) => {
   const tamplateVars = { urls: urlDataBase };
   res.render("urls_index", tamplateVars);
 });
 
-app.post("/urls", (req, res) => {
+app.post("/u", (req, res) => {
   const shortURL = generateRandomString();
-  const longURL = req.body.longURL;
+  const longURL = req.body.longURL.substr(0,4) !== "http" ? `http://${req.body.longURL}` : req.body.longURL;
   urlDataBase[shortURL] = longURL; // Log the POST request body to the console
-  res.redirect(`/urls/${shortURL}`); // Respond with 'Ok' (we will replace this)
+  res.redirect(`/u/${shortURL}`); // Respond with 'Ok' (we will replace this)
 });
 
-app.get("/urls/new", (req, res) => {
+app.get("/u/new", (req, res) => {
   res.render("urls_new");
 });
 
-app.get("/urls/:shortURL", (req, res) => {
+app.get("/u/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = urlDataBase[shortURL];
   if (!longURL) {
