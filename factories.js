@@ -17,11 +17,4 @@ const generateRandomString = () => {
   return randomKey;
 };
 
-console.log(generateRandomString());
-console.log(generateRandomString());
-console.log(generateRandomString());
-console.log(generateRandomString());
-console.log(generateRandomString());
-console.log(generateRandomString());
-console.log(generateRandomString());
 module.exports = { generateRandomString };

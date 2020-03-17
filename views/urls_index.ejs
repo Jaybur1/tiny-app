@@ -30,9 +30,9 @@
         <tbody>
           <% for(let url in urls) { %>
           <tr>
-            <td><%= url %></td>
+            <td><a href="http://localhost:8080/urls/<%=url%>">http://localhost:8080/u/<%= url %></a></td>
             <td><%= urls[url] %></td>
-          </tr>
+          </tr> 
           <% } %>
         </tbody>
       </table>
