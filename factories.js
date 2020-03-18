@@ -17,4 +17,11 @@ const generateRandomString = () => {
   return randomKey;
 };
 
-module.exports = { generateRandomString };
+const isEmailInUse = (email, dataBase) => {
+  for (const id in dataBase) {
+    if (dataBase[id].email === email) return true;
+  }
+  return false;
+};
+
+module.exports = { generateRandomString,isEmailInUse };

@@ -17,11 +17,28 @@
     <title>TinyApp</title>
   </head>
   <body>
-    <%- include('partials/_header',username) %>
-    <div style="padding-top: 25px; margin-top:200px; height: 30vh; width: 60vw; background:rgba(233,230,230,0.4)"class="signup-form container justify-content-center rounded">
-      <form class="form justify-content-center text-center" action="/register" method="POST">
+    <%- include('partials/_header',user) %>
+    <div
+      style="padding-top: 25px; margin-top:200px; height: 30vh; width: 60vw; background:rgba(233,230,230,0.4)"
+      class="signup-form container justify-content-center rounded"
+    >
+      <form
+        class="form justify-content-center text-center"
+        action="/register"
+        method="POST"
+      >
         <h4>Register</h4>
-        <div style="margin-top:25px;"class="form-group">
+        <div style="margin-top:25px;" class="form-group">
+          <label for="name">Name :</label>
+          <input
+            type="text"
+            class="col-md-4 rounded"
+            name="name"
+            placeholder="awesome nickname"
+            required="required"
+          />
+        </div>
+        <div class="form-group">
           <label for="email">Email:</label>
           <input
             type="email"
@@ -47,9 +64,15 @@
           </button>
         </div>
       </form>
-      <div class="text-center">
-        Already have an account? <a href="#">Login in</a>
-      </div>
+    </div>
+    <div>
+      <% if(err) {%>
+      <p class="text-center text-danger">
+        This Email is already in use, please try a different one
+      </p>
+      <br />
+      <p class="text-center text-danger">If it is your Email maybe try to <a href="/login">login</a> instead ? =))</p>
+      <%}%>
     </div>
     <!-- Bootstrap JS -->
     <script

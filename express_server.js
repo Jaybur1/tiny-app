@@ -1,4 +1,5 @@
-const { generateRandomString } = require("./factories");
+const { generateRandomString, isEmailInUse } = require("./factories");
+const { urlDataBase, usersDataBase } = require("./constants");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -9,31 +10,46 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.set("view engine", "ejs");
 
-const urlDataBase = {
-  b2xVn2: "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
-};
-
 app.get("/", (req, res) => {
   res.redirect("/u");
 });
 
 app.post("/login", (req, res) => {
-  res.cookie("username", req.body.username);
-  res.redirect("/u");
+  // res.cookie("username", req.body.username);
+  // res.redirect("/u");
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("username");
+  res.clearCookie("user_id");
   res.redirect("/u");
 });
 
-app.get('/register', (req,res) => {
-  res.render('register_form',{username: req.cookies.username});
+app.get("/register", (req, res) => {
+  res.render("register_form", {
+    user: usersDataBase[req.cookies.user_id],
+    err: null
+  });
+});
+
+app.post("/register", (req, res) => {
+  if (!isEmailInUse(req.body.email, usersDataBase)) {
+    const id = generateRandomString();
+    usersDataBase[id] = { id, ...req.body };
+    res.cookie("user_id", id);
+    res.redirect("/u");
+  } else {
+    res.statusCode = 400;
+    console.log(usersDataBase);
+    res.render("register_form",{user:undefined ,err: "email already in use"});
+  }
 });
 
 app.get("/u", (req, res) => {
-  const tamplateVars = { urls: urlDataBase, username: req.cookies.username };
+  const tamplateVars = {
+    urls: urlDataBase,
+    user: usersDataBase[req.cookies.user_id]
+  };
+  console.log(tamplateVars.user);
   res.render("urls_index", tamplateVars);
 });
 
@@ -48,8 +64,8 @@ app.post("/u", (req, res) => {
 });
 
 app.get("/u/new", (req, res) => {
-  const username = { username: req.cookies.username };
-  res.render("urls_new", username);
+  const user = usersDataBase[req.cookies.user_id];
+  res.render("urls_new", user);
 });
 
 app.get("/u/:shortURL", (req, res) => {
@@ -66,7 +82,11 @@ app.get("/u/:shortURL", (req, res) => {
 app.get("/u/:shortURL/update", (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = urlDataBase[shortURL];
-  const tamplateVars = { shortURL, longURL, username: req.cookies.username };
+  const tamplateVars = {
+    shortURL,
+    longURL,
+    user: usersDataBase[req.cookies.user_id]
+  };
 
   res.render("url_show", tamplateVars);
 });
