@@ -24,9 +24,14 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie('username');
-  res.redirect('/u');
+  res.clearCookie("username");
+  res.redirect("/u");
 });
+
+app.get('/register', (req,res) => {
+  res.render('register_form',{username: req.cookies.username});
+});
+
 app.get("/u", (req, res) => {
   const tamplateVars = { urls: urlDataBase, username: req.cookies.username };
   res.render("urls_index", tamplateVars);
@@ -38,8 +43,8 @@ app.post("/u", (req, res) => {
     req.body.longURL.substr(0, 4) !== "http"
       ? `http://${req.body.longURL}`
       : req.body.longURL;
-  urlDataBase[shortURL] = longURL; // Log the POST request body to the console
-  res.redirect(`/u`); // Respond with 'Ok' (we will replace this)
+  urlDataBase[shortURL] = longURL;
+  res.redirect(`/u`);
 });
 
 app.get("/u/new", (req, res) => {
