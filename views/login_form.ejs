@@ -59,10 +59,10 @@
     <div>
       <% if(err) {%>
       <p class="text-center text-danger">
-        This Email is already in use, please try a different one
+        <%= err %>
       </p>
       <br />
-      <p class="text-center text-danger">If it is your Email maybe try to <a href="/login">login</a> instead ? =))</p>
+      <p class="text-center text-danger">If you dont have an account maybe try to <a href="/register">Sign in</a> instead ? =))</p>
       <%}%>
     </div>
     <!-- Bootstrap JS -->

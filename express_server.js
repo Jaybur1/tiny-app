@@ -1,4 +1,4 @@
-const { generateRandomString, checkDataBase ,getId} = require("./factories");
+const { generateRandomString, checkDataBase, getId } = require("./factories");
 const { urlDataBase, usersDataBase } = require("./constants");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -18,12 +18,16 @@ app.get("/login", (req, res) => {
   res.render("login_form", { user: null, err: null });
 });
 app.post("/login", (req, res) => {
-  const {email , password} = req.body;
-  if (getId(email,password,usersDataBase)) {
-    res.cookie('user_id', getId(email,password,usersDataBase));
-    res.redirect('/u');
+  const { email, password } = req.body;
+  if (getId(email, password, usersDataBase)) {
+    res.cookie("user_id", getId(email, password, usersDataBase));
+    res.redirect("/u");
   } else {
-    res.send("bad");
+    res.statusCode = 403;
+    res.render("login_form", {
+      user: undefined,
+      err: `Incorrect Email/Password was enterd ... try again`
+    });
   }
 });
 
@@ -75,7 +79,7 @@ app.post("/u", (req, res) => {
 
 app.get("/u/new", (req, res) => {
   const user = usersDataBase[req.cookies.user_id];
-  res.render("urls_new", user);
+  res.render("urls_new",{ user });
 });
 
 app.get("/u/:shortURL", (req, res) => {
