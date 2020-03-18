@@ -17,11 +17,20 @@ const generateRandomString = () => {
   return randomKey;
 };
 
-const isEmailInUse = (email, dataBase) => {
+const checkDataBase = (elementToCheck, dataBase, key) => {
   for (const id in dataBase) {
-    if (dataBase[id].email === email) return true;
+    if (dataBase[id][key] === elementToCheck) return true;
   }
   return false;
 };
 
-module.exports = { generateRandomString,isEmailInUse };
+const getId = (email, password, dataBase) => {
+  for (const id in dataBase) {
+    if (dataBase[id].email === email && dataBase[id].password === password) {
+      return id;
+    }
+  }
+  return false;
+};
+
+module.exports = { generateRandomString, checkDataBase, getId };

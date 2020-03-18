@@ -1,4 +1,4 @@
-const { generateRandomString, isEmailInUse } = require("./factories");
+const { generateRandomString, checkDataBase ,getId} = require("./factories");
 const { urlDataBase, usersDataBase } = require("./constants");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -14,9 +14,17 @@ app.get("/", (req, res) => {
   res.redirect("/u");
 });
 
+app.get("/login", (req, res) => {
+  res.render("login_form", { user: null, err: null });
+});
 app.post("/login", (req, res) => {
-  // res.cookie("username", req.body.username);
-  // res.redirect("/u");
+  const {email , password} = req.body;
+  if (getId(email,password,usersDataBase)) {
+    res.cookie('user_id', getId(email,password,usersDataBase));
+    res.redirect('/u');
+  } else {
+    res.send("bad");
+  }
 });
 
 app.post("/logout", (req, res) => {
@@ -32,15 +40,17 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", (req, res) => {
-  if (!isEmailInUse(req.body.email, usersDataBase)) {
+  if (!checkDataBase(req.body.email, usersDataBase, "email")) {
     const id = generateRandomString();
     usersDataBase[id] = { id, ...req.body };
     res.cookie("user_id", id);
     res.redirect("/u");
   } else {
     res.statusCode = 400;
-    console.log(usersDataBase);
-    res.render("register_form",{user:undefined ,err: "email already in use"});
+    res.render("register_form", {
+      user: undefined,
+      err: "email already in use"
+    });
   }
 });
 

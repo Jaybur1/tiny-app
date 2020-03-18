@@ -6,11 +6,13 @@ const urlDataBase = {
 const usersDataBase = {
   userRandomID: {
     id: "userRandomID",
+    name: "holymolly",
     email: "user@example.com",
     password: "purple-monkey-dinosaur"
   },
   user2RandomID: {
     id: "user2RandomID",
+    name: "polygolly",
     email: "user2@example.com",
     password: "dishwasher-funk"
   }
