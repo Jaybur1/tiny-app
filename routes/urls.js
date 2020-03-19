@@ -2,7 +2,11 @@ const { urlDataBase, usersDataBase } = require("../constants");
 const express = require("express");
 const router = express.Router();
 
-const { generateRandomString, urlsForUser, currentDate } = require("../helpers");
+const {
+  generateRandomString,
+  urlsForUser,
+  currentDate
+} = require("../helpers");
 
 //urls index
 router.get("/u", (req, res) => {
@@ -31,7 +35,7 @@ router.post("/u", (req, res) => {
     req.body.longURL.substr(0, 4) !== "http"
       ? `http://${req.body.longURL}`
       : req.body.longURL;
-  urlDataBase[shortURL] = { longURL, userID ,createdAt , visits: 0};
+  urlDataBase[shortURL] = { longURL, userID, createdAt, visits: 0 };
   res.redirect(`/u`);
 });
 
@@ -43,7 +47,7 @@ router.get("/u/:shortURL", (req, res) => {
     res.statusCode = 404;
     res.send("404, Page Not Found");
   } else {
-    urlDataBase[shortURL].visits ++;
+    urlDataBase[shortURL].visits++;
     res.redirect(longURL);
   }
 });

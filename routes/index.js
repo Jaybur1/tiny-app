@@ -1,12 +1,10 @@
 const { usersDataBase } = require("../constants");
 const express = require("express");
 const router = express.Router();
-const loginRouter = require('./login');
-const logoutRouter = require('./logout');
-const registerRouter = require('./register');
-const urlsRouter = require('./urls');
-
-
+const loginRouter = require("./login");
+const logoutRouter = require("./logout");
+const registerRouter = require("./register");
+const urlsRouter = require("./urls");
 
 /* GET home page. */
 router.get("/", (req, res) => {
@@ -14,32 +12,31 @@ router.get("/", (req, res) => {
 });
 
 //handle Login
-router.get('/login',loginRouter);
-router.post('/login', loginRouter);
+router.get("/login", loginRouter);
+router.post("/login", loginRouter);
 
 //handle logout
-router.post('/logout',logoutRouter);
+router.post("/logout", logoutRouter);
 
 //handle registration
-router.get('/register', registerRouter);
-router.post('/register', registerRouter);
+router.get("/register", registerRouter);
+router.post("/register", registerRouter);
 
 //handle urls page
-router.get("/u",urlsRouter);
+router.get("/u", urlsRouter);
 
 //handle newroute
-router.get('/u/new',urlsRouter);
-router.post('/u',urlsRouter);
+router.get("/u/new", urlsRouter);
+router.post("/u", urlsRouter);
 
 //handle shorturls
-router.get('/u/:shortURL', urlsRouter);
+router.get("/u/:shortURL", urlsRouter);
 
 //handle shorturl edit
-router.get("/u/:shortURL/update",urlsRouter);
-router.post("/u/:shortURL/update",urlsRouter);
+router.get("/u/:shortURL/update", urlsRouter);
+router.post("/u/:shortURL/update", urlsRouter);
 
 //handle delete
 router.post("/u/:shortURL/delete", urlsRouter);
-
 
 module.exports = router;
