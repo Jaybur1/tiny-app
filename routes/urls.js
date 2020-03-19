@@ -42,13 +42,13 @@ router.post("/u", (req, res) => {
 //handle shortURL
 router.get("/u/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
-  const longURL = urlDataBase[shortURL].longURL;
+  const longURL = urlDataBase[shortURL];
   if (!longURL) {
     res.statusCode = 404;
-    res.send("404, Page Not Found");
+    res.render("err");
   } else {
     urlDataBase[shortURL].visits++;
-    res.redirect(longURL);
+    res.redirect(longURL.longURL);
   }
 });
 
