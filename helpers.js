@@ -33,6 +33,7 @@ const getId = (email, dataBase) => {
   return false;
 };
 
+//returns a new object with urls that coresponding with the given id
 const urlsForUser = (id, dataBase) => {
   const userUrls = {};
   for (const url in dataBase) {
@@ -43,6 +44,7 @@ const urlsForUser = (id, dataBase) => {
   return userUrls;
 };
 
+//creates a string with the curent date
 const currentDate = () => {
   const today = new Date();
   const dd = String(today.getDate()).padStart(2, "0");
