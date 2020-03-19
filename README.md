@@ -5,16 +5,27 @@ TinyApp is a full stack web application built with Node and Express that allows 
 for example for given [http://lighthouselabs.ca](http://lighthouselabs.ca) => the app will generate somthing  similar to http://localhost/u/R4dre3.
 ****
 ## Final Product
+1) Index page:
 
 !["tiny app index page"](/public/images/indexPage.png)
 
+2) Login page:
+
 !["tiny app login page"](/public/images/loginPage.png)
 
-!["tiny app urls page"](/public/images/registerPage.png)
+3) Register page:
+
+!["tiny app register page"](/public/images/registerPage.png)
+
+4) My Urls page:
 
 !["tiny app urls page"](/public/images/urlsPage.png)
 
+5) Create new Url page:
+
 !["tiny app urls page"](/public/images/newUrlPage.png)
+
+6) Edit exsiting Url page:
 
 !["tiny app urls page"](/public/images/editUrlPage.png)
 
