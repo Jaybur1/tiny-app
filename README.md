@@ -2,7 +2,7 @@
 
   A simple web app that generates a "shortUrl" link for a  given "longUrl" link
  
-  for example for given [http://lighthouselabs.ca](http:// lighthouselabs.ca) => the app will generate somthing  simmilar to http://localhost/u/R4dre3
+  for example for given [http://lighthouselabs.ca](http://lighthouselabs.ca) => the app will generate somthing  simmilar to http://localhost/u/R4dre3
 
 #### How to use:
   1) Clone this repository,
