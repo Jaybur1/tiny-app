@@ -1,7 +1,7 @@
 const { urlDataBase, usersDataBase } = require("./constants");
 const express = require("express");
 const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
+const cookieSession = require("cookie-session");
 const bcrypt = require("bcrypt");
 
 const app = express();
@@ -15,11 +15,16 @@ const {
 
 app.use("/public/images/", express.static("./public/images"));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
+app.use(
+  cookieSession({
+    name: "session",
+    keys: ["userId"]
+  })
+);
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.render("index", { user: usersDataBase[req.cookies.user_id] });
+  res.render("index", { user: usersDataBase[req.session.userId] });
 });
 
 app.get("/login", (req, res) => {
@@ -31,7 +36,7 @@ app.post("/login", (req, res) => {
     const id = getId(email, usersDataBase);
     bcrypt.compare(password, usersDataBase[id].password, (err, result) => {
       if (result) {
-        res.cookie("user_id", id);
+        req.session.userId = id;
         res.redirect("/u");
       } else {
         res.statusCode = 403;
@@ -45,13 +50,13 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("user_id");
+  req.session = null;
   res.redirect("/");
 });
 
 app.get("/register", (req, res) => {
   res.render("register_form", {
-    user: usersDataBase[req.cookies.user_id],
+    user: usersDataBase[req.session.userId],
     err: null
   });
 });
@@ -62,7 +67,7 @@ app.post("/register", (req, res) => {
     bcrypt.hash(req.body.password, 10, (err, hash) => {
       const { name, email } = req.body;
       usersDataBase[id] = { id, name, email, password: hash };
-      res.cookie("user_id", id);
+      req.session.userId = id;
       console.log(usersDataBase);
       res.redirect("/u");
     });
@@ -76,10 +81,10 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/u", (req, res) => {
-  if (usersDataBase[req.cookies.user_id]) {
+  if (usersDataBase[req.session.userId]) {
     const tamplateVars = {
-      urls: urlsForUser(req.cookies.user_id, urlDataBase),
-      user: usersDataBase[req.cookies.user_id]
+      urls: urlsForUser(req.session.userId, urlDataBase),
+      user: usersDataBase[req.session.userId]
     };
     res.render("urls_index", tamplateVars);
   } else {
@@ -88,7 +93,7 @@ app.get("/u", (req, res) => {
 });
 
 app.post("/u", (req, res) => {
-  const userID = req.cookies.user_id;
+  const userID = req.session.userId;
   const shortURL = generateRandomString();
   const longURL =
     req.body.longURL.substr(0, 4) !== "http"
@@ -99,7 +104,7 @@ app.post("/u", (req, res) => {
 });
 
 app.get("/u/new", (req, res) => {
-  const user = usersDataBase[req.cookies.user_id];
+  const user = usersDataBase[req.session.userId];
   user ? res.render("urls_new", { user }) : res.redirect("/");
 });
 
@@ -115,15 +120,15 @@ app.get("/u/:shortURL", (req, res) => {
 });
 
 app.get("/u/:shortURL/update", (req, res) => {
-  if (usersDataBase[req.cookies.user_id]) {
+  if (usersDataBase[req.session.userId]) {
     const { shortURL } = req.params;
-    const userURLs = urlsForUser(req.cookies.user_id, urlDataBase);
+    const userURLs = urlsForUser(req.session.userId, urlDataBase);
     if (userURLs[shortURL]) {
       const longURL = userURLs[shortURL].longURL;
       const tamplateVars = {
         shortURL,
         longURL,
-        user: usersDataBase[req.cookies.user_id]
+        user: usersDataBase[req.session.userId]
       };
 
       res.render("url_show", tamplateVars);
@@ -138,7 +143,7 @@ app.get("/u/:shortURL/update", (req, res) => {
 
 app.post("/u/:shortURL/update", (req, res) => {
   console.log(urlDataBase);
-  const userURLs = urlsForUser(req.cookies.user_id, urlDataBase);
+  const userURLs = urlsForUser(req.session.userId, urlDataBase);
   if (userURLs[req.params.shortURL]) {
     userURLs[req.params.shortURL].longURL =
       req.body.longURL.substr(0, 4) !== "http"
@@ -152,7 +157,7 @@ app.post("/u/:shortURL/update", (req, res) => {
 });
 
 app.post("/u/:shortURL/delete", (req, res) => {
-  const userURLs = urlsForUser(req.cookies.user_id, urlDataBase);
+  const userURLs = urlsForUser(req.session.userId, urlDataBase);
   if (userURLs[req.params.shortURL]) {
     delete userURLs[req.params.shortURL];
     delete urlDataBase[req.params.shortURL];
