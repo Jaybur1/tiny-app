@@ -7,13 +7,15 @@
 #### How to use:
   1) Clone this repository,
 
-  2) ```npm install```
+  2) `cd` to the cloned folder
 
-  3) Go to [http://localhost:8080](http://localhost:8080)
+  3) Run  ```npm install``` in the terminal
+ 
+  4) Go to [http://localhost:8080](http://localhost:8080)
 
-  4) register
+  5) register
 
-  5) Have fun =))
+  6) Have fun =))
 
 
 
