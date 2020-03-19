@@ -72,12 +72,13 @@ app.get("/u", (req, res) => {
 });
 
 app.post("/u", (req, res) => {
+  const userID = req.cookies.user_id;
   const shortURL = generateRandomString();
   const longURL =
     req.body.longURL.substr(0, 4) !== "http"
       ? `http://${req.body.longURL}`
       : req.body.longURL;
-  urlDataBase[shortURL] = longURL;
+  urlDataBase[shortURL] = {longURL,userID};
   res.redirect(`/u`);
 });
 
@@ -88,7 +89,7 @@ app.get("/u/new", (req, res) => {
 
 app.get("/u/:shortURL", (req, res) => {
   const shortURL = req.params.shortURL;
-  const longURL = urlDataBase[shortURL];
+  const longURL = urlDataBase[shortURL].longURL;
   if (!longURL) {
     res.statusCode = 404;
     res.send("404, Page Not Found");
