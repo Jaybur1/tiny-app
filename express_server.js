@@ -60,7 +60,7 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/u", (req, res) => {
-  if (req.cookies.user_id) {
+  if (usersDataBase[req.cookies.user_id]) {
     const tamplateVars = {
       urls: urlDataBase,
       user: usersDataBase[req.cookies.user_id]
@@ -98,7 +98,7 @@ app.get("/u/:shortURL", (req, res) => {
 });
 
 app.get("/u/:shortURL/update", (req, res) => {
-  if (req.cookies.user_id) {
+  if (usersDataBase[req.cookies.user_id]) {
     const shortURL = req.params.shortURL;
     const longURL = urlDataBase[shortURL];
     const tamplateVars = {
@@ -122,7 +122,7 @@ app.post("/u/:shortURL/update", (req, res) => {
 });
 
 app.post("/u/:shortURL/delete", (req, res) => {
-  if (req.cookies.user_id) {
+  if (usersDataBase[req.cookies.user_id]) {
     delete urlDataBase[req.params.shortURL];
     res.redirect("/u");
   } else {
