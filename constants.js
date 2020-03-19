@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const urlDataBase = {
   b6UTxQ: { longURL: "https://www.tsn.ca", userID: "aJ48lW" },
   i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" },
@@ -11,13 +12,13 @@ const usersDataBase = {
     id: "aJ48lW",
     name: "holymolly",
     email: "user@example.com",
-    password: "plasplas"
+    password: bcrypt.hashSync('plasplas', 10)
   },
   joLL3n: {
     id: "joLL3n",
     name: "polygolly",
     email: "user2@example.com",
-    password: "plasplas"
+    password: bcrypt.hashSync('plasplas', 10)
   }
 };
 

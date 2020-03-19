@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 const randomNum = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
@@ -24,9 +26,9 @@ const checkDataBase = (elementToCheck, dataBase, key) => {
   return false;
 };
 //geting the id if both email and password match, otherwise return false
-const getId = (email, password, dataBase) => {
+const getId = (email, dataBase) => {
   for (const id in dataBase) {
-    if (dataBase[id].email === email && dataBase[id].password === password) {
+    if (dataBase[id].email === email) {
       return id;
     }
   }

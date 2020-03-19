@@ -1,15 +1,17 @@
+const { urlDataBase, usersDataBase } = require("./constants");
+const express = require("express");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const bcrypt = require("bcrypt");
+
+const app = express();
+const PORT = 8080;
 const {
   generateRandomString,
   checkDataBase,
   getId,
   urlsForUser
 } = require("./factories");
-const { urlDataBase, usersDataBase } = require("./constants");
-const express = require("express");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const app = express();
-const PORT = 8080;
 
 app.use("/public/images/", express.static("./public/images"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -25,14 +27,19 @@ app.get("/login", (req, res) => {
 });
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
-  if (getId(email, password, usersDataBase)) {
-    res.cookie("user_id", getId(email, password, usersDataBase));
-    res.redirect("/u");
-  } else {
-    res.statusCode = 403;
-    res.render("login_form", {
-      user: undefined,
-      err: `Incorrect Email/Password was enterd ... try again`
+  if (getId(email, usersDataBase)) {
+    const id = getId(email, usersDataBase);
+    bcrypt.compare(password, usersDataBase[id].password, (err, result) => {
+      if (result) {
+        res.cookie("user_id", id);
+        res.redirect("/u");
+      } else {
+        res.statusCode = 403;
+        res.render("login_form", {
+          user: undefined,
+          err: `Incorrect Email/Password was enterd ... try again`
+        });
+      }
     });
   }
 });
@@ -52,9 +59,13 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
   if (!checkDataBase(req.body.email, usersDataBase, "email")) {
     const id = generateRandomString();
-    usersDataBase[id] = { id, ...req.body };
-    res.cookie("user_id", id);
-    res.redirect("/u");
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+      const { name, email } = req.body;
+      usersDataBase[id] = { id, name, email, password: hash };
+      res.cookie("user_id", id);
+      console.log(usersDataBase);
+      res.redirect("/u");
+    });
   } else {
     res.statusCode = 400;
     res.render("register_form", {
