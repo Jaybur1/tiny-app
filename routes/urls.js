@@ -75,7 +75,6 @@ router.get("/u/:shortURL/update", (req, res) => {
 });
 
 router.post("/u/:shortURL/update", (req, res) => {
-  console.log(urlDataBase);
   const userURLs = urlsForUser(req.session.userId, urlDataBase);
   if (userURLs[req.params.shortURL]) {
     userURLs[req.params.shortURL].longURL =
@@ -84,7 +83,6 @@ router.post("/u/:shortURL/update", (req, res) => {
         : req.body.longURL;
     urlDataBase[req.params.shortURL].longURL =
       userURLs[req.params.shortURL].longURL;
-    console.log(urlDataBase);
     res.redirect("/u");
   }
 });

@@ -19,7 +19,6 @@ router.post("/register", (req, res) => {
       const { name, email } = req.body;
       usersDataBase[id] = { id, name, email, password: hash };
       req.session.userId = id;
-      console.log(usersDataBase);
       res.redirect("/u");
     });
   } else {
