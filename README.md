@@ -13,7 +13,7 @@
  
   4) Go to [http://localhost:8080](http://localhost:8080)
 
-  5) register
+  5) Register
 
   6) Have fun =))
 
