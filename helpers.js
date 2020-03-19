@@ -43,4 +43,20 @@ const urlsForUser = (id, dataBase) => {
   return userUrls;
 };
 
-module.exports = { generateRandomString, checkDataBase, getId, urlsForUser };
+const currentDate = () => {
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  const yyyy = today.getFullYear();
+
+  const now = mm + "/" + dd + "/" + yyyy;
+  return now;
+};
+
+module.exports = {
+  generateRandomString,
+  checkDataBase,
+  getId,
+  urlsForUser,
+  currentDate
+};

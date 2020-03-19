@@ -33,6 +33,8 @@
               <th scope="col">Long URL</th>
               <th scope="col">Edit URL</th>
               <th scope="col">Delete URL</th>
+              <th scope="col">Created At</th>
+              <th scope="col">ShortUrl Used</th>
             </tr>
           </thead>
           <tbody>
@@ -58,6 +60,8 @@
                   </button>
                 </form>
               </td>
+              <td><%= urls[url].createdAt %></td>
+              <td><%= urls[url].visits %> </td>
             </tr>
           <% } %>
           </tbody>
