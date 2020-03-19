@@ -6,9 +6,19 @@ for example for given [http://lighthouselabs.ca](http://lighthouselabs.ca) => th
 ****
 ## Final Product
 
-!["tinyapp demo1"](/public/images/tinyappexample1.png)
+!["tiny app index page"](/public/images/indexPage.png)
 
-!["tinyapp demo2"](/public/images/tinyappexample2.png)
+!["tiny app login page"](/public/images/loginPage.png)
+
+!["tiny app urls page"](/public/images/registerPage.png)
+
+!["tiny app urls page"](/public/images/urlsPage.png)
+
+!["tiny app urls page"](/public/images/newUrlPage.png)
+
+!["tiny app urls page"](/public/images/editUrlPage.png)
+
+
 
 ****
 ## How to use:
