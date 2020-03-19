@@ -2,7 +2,7 @@ const { usersDataBase } = require("../constants");
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const { generateRandomString, checkDataBase } = require("../factories");
+const { generateRandomString, checkDataBase } = require("../helpers");
 
 /* handle registration. */
 router.get("/register", (req, res) => {

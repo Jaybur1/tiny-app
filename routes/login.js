@@ -2,7 +2,7 @@ const { usersDataBase } = require("../constants");
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const { getId } = require("../factories");
+const { getId } = require("../helpers");
 
 /* handle login page. */
 router.get("/login", (req, res) => {

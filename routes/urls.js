@@ -2,7 +2,7 @@ const { urlDataBase, usersDataBase } = require("../constants");
 const express = require("express");
 const router = express.Router();
 
-const { generateRandomString, urlsForUser } = require("../factories");
+const { generateRandomString, urlsForUser } = require("../helpers");
 
 //urls index
 router.get("/u", (req, res) => {
