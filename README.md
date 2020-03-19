@@ -6,9 +6,9 @@ for example for given [http://lighthouselabs.ca](http://lighthouselabs.ca) => th
 ****
 ## Final Product
 
-!["tinyapp demo1"](/public/images/tinyappexample1.png);
+!["tinyapp demo1"](/public/images/tinyappexample1.png)
 
-!["tinyapp demo2"](/public/images/tinyappexample2.png);
+!["tinyapp demo2"](/public/images/tinyappexample2.png)
 
 ****
 ## How to use:
