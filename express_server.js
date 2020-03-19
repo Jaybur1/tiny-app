@@ -6,12 +6,13 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const PORT = 8080;
 
+app.use("/public/images/", express.static("./public/images"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.redirect("/u");
+  res.render("index", { user: usersDataBase[req.cookies.user_id] });
 });
 
 app.get("/login", (req, res) => {
@@ -33,7 +34,7 @@ app.post("/login", (req, res) => {
 
 app.post("/logout", (req, res) => {
   res.clearCookie("user_id");
-  res.redirect("/u");
+  res.redirect("/");
 });
 
 app.get("/register", (req, res) => {
@@ -59,12 +60,15 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/u", (req, res) => {
-  const tamplateVars = {
-    urls: urlDataBase,
-    user: usersDataBase[req.cookies.user_id]
-  };
-  console.log(tamplateVars.user);
-  res.render("urls_index", tamplateVars);
+  if (req.cookies.user_id) {
+    const tamplateVars = {
+      urls: urlDataBase,
+      user: usersDataBase[req.cookies.user_id]
+    };
+    res.render("urls_index", tamplateVars);
+  } else {
+    res.redirect("/");
+  }
 });
 
 app.post("/u", (req, res) => {
@@ -79,7 +83,7 @@ app.post("/u", (req, res) => {
 
 app.get("/u/new", (req, res) => {
   const user = usersDataBase[req.cookies.user_id];
-  res.render("urls_new",{ user });
+  user ? res.render("urls_new", { user }) : res.redirect("/");
 });
 
 app.get("/u/:shortURL", (req, res) => {
@@ -94,15 +98,19 @@ app.get("/u/:shortURL", (req, res) => {
 });
 
 app.get("/u/:shortURL/update", (req, res) => {
-  const shortURL = req.params.shortURL;
-  const longURL = urlDataBase[shortURL];
-  const tamplateVars = {
-    shortURL,
-    longURL,
-    user: usersDataBase[req.cookies.user_id]
-  };
+  if (req.cookies.user_id) {
+    const shortURL = req.params.shortURL;
+    const longURL = urlDataBase[shortURL];
+    const tamplateVars = {
+      shortURL,
+      longURL,
+      user: usersDataBase[req.cookies.user_id]
+    };
 
-  res.render("url_show", tamplateVars);
+    res.render("url_show", tamplateVars);
+  } else {
+    res.redirect("/");
+  }
 });
 
 app.post("/u/:shortURL/update", (req, res) => {
@@ -114,8 +122,13 @@ app.post("/u/:shortURL/update", (req, res) => {
 });
 
 app.post("/u/:shortURL/delete", (req, res) => {
-  delete urlDataBase[req.params.shortURL];
-  res.redirect("/u");
+  if (req.cookies.user_id) {
+    delete urlDataBase[req.params.shortURL];
+    res.redirect("/u");
+  } else {
+    res.statusCode = 420;
+    res.send("ARE YOU HIGH ?!");
+  }
 });
 
 app.listen(PORT, () => {
