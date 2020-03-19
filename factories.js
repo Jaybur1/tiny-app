@@ -33,4 +33,14 @@ const getId = (email, password, dataBase) => {
   return false;
 };
 
-module.exports = { generateRandomString, checkDataBase, getId };
+const urlsForUser = (id, dataBase) => {
+  const userUrls = {};
+  for (const url in dataBase) {
+    if (dataBase[url].userID === id) {
+      userUrls[url] = dataBase[url];
+    }
+  }
+  return userUrls;
+};
+
+module.exports = { generateRandomString, checkDataBase, getId, urlsForUser };

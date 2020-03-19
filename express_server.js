@@ -1,4 +1,9 @@
-const { generateRandomString, checkDataBase, getId } = require("./factories");
+const {
+  generateRandomString,
+  checkDataBase,
+  getId,
+  urlsForUser
+} = require("./factories");
 const { urlDataBase, usersDataBase } = require("./constants");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -62,7 +67,7 @@ app.post("/register", (req, res) => {
 app.get("/u", (req, res) => {
   if (usersDataBase[req.cookies.user_id]) {
     const tamplateVars = {
-      urls: urlDataBase,
+      urls: urlsForUser(req.cookies.user_id, urlDataBase),
       user: usersDataBase[req.cookies.user_id]
     };
     res.render("urls_index", tamplateVars);
@@ -78,7 +83,7 @@ app.post("/u", (req, res) => {
     req.body.longURL.substr(0, 4) !== "http"
       ? `http://${req.body.longURL}`
       : req.body.longURL;
-  urlDataBase[shortURL] = {longURL,userID};
+  urlDataBase[shortURL] = { longURL, userID };
   res.redirect(`/u`);
 });
 
@@ -100,30 +105,45 @@ app.get("/u/:shortURL", (req, res) => {
 
 app.get("/u/:shortURL/update", (req, res) => {
   if (usersDataBase[req.cookies.user_id]) {
-    const shortURL = req.params.shortURL;
-    const longURL = urlDataBase[shortURL];
-    const tamplateVars = {
-      shortURL,
-      longURL,
-      user: usersDataBase[req.cookies.user_id]
-    };
+    const { shortURL } = req.params;
+    const userURLs = urlsForUser(req.cookies.user_id, urlDataBase);
+    if (userURLs[shortURL]) {
+      const longURL = userURLs[shortURL].longURL;
+      const tamplateVars = {
+        shortURL,
+        longURL,
+        user: usersDataBase[req.cookies.user_id]
+      };
 
-    res.render("url_show", tamplateVars);
+      res.render("url_show", tamplateVars);
+    } else {
+      res.statusCode = 418;
+      res.send("sorry bro...");
+    }
   } else {
     res.redirect("/");
   }
 });
 
 app.post("/u/:shortURL/update", (req, res) => {
-  urlDataBase[req.params.shortURL] =
-    req.body.longURL.substr(0, 4) !== "http"
-      ? `http://${req.body.longURL}`
-      : req.body.longURL;
-  res.redirect("/u");
+  console.log(urlDataBase);
+  const userURLs = urlsForUser(req.cookies.user_id, urlDataBase);
+  if (userURLs[req.params.shortURL]) {
+    userURLs[req.params.shortURL].longURL =
+      req.body.longURL.substr(0, 4) !== "http"
+        ? `http://${req.body.longURL}`
+        : req.body.longURL;
+    urlDataBase[req.params.shortURL].longURL =
+      userURLs[req.params.shortURL].longURL;
+    console.log(urlDataBase);
+    res.redirect("/u");
+  }
 });
 
 app.post("/u/:shortURL/delete", (req, res) => {
-  if (usersDataBase[req.cookies.user_id]) {
+  const userURLs = urlsForUser(req.cookies.user_id, urlDataBase);
+  if (userURLs[req.params.shortURL]) {
+    delete userURLs[req.params.shortURL];
     delete urlDataBase[req.params.shortURL];
     res.redirect("/u");
   } else {

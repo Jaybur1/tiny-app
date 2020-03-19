@@ -31,7 +31,6 @@
         </thead>
         <tbody>
         <% for(let url in urls) { %> 
-          <% if (urls[url].userID === user.id) {%>
           <tr>
             <td>
               http://localhost:8080/u/<%= url %>
@@ -54,7 +53,6 @@
               </form>
             </td>
           </tr>
-          <% } %> 
         <% } %>
         </tbody>
       </table>

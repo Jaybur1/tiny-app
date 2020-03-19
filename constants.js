@@ -3,7 +3,7 @@ const urlDataBase = {
   i3BoGr: { longURL: "https://www.google.ca", userID: "aJ48lW" },
   er3TRp: { longURL: "https://www.lighthouselabs.ca", userID: "aJ48lW" },
   P0lkaH: { longURL: "https://www.yahoo.com", userID: "joLL3n" },
-  teStin: { longURL: "https://www.facebook.com", userID: "joLL3n" },
+  teStin: { longURL: "https://www.facebook.com", userID: "joLL3n" }
 };
 
 const usersDataBase = {
