@@ -1,7 +1,9 @@
 const { urlDataBase, usersDataBase } = require("../constants");
 const express = require("express");
 const router = express.Router();
+const methodOverride = require("method-override");
 
+router.use(methodOverride('_method'));
 const {
   generateRandomString,
   urlsForUser,
@@ -74,7 +76,7 @@ router.get("/u/:shortURL/update", (req, res) => {
   }
 });
 
-router.post("/u/:shortURL/update", (req, res) => {
+router.put("/u/:shortURL", (req, res) => {
   const userURLs = urlsForUser(req.session.userId, urlDataBase);
   if (userURLs[req.params.shortURL]) {
     userURLs[req.params.shortURL].longURL =
@@ -88,15 +90,15 @@ router.post("/u/:shortURL/update", (req, res) => {
 });
 
 //handle delete
-router.post("/u/:shortURL/delete", (req, res) => {
+router.delete("/u/:shortURL", (req, res) => {
   const userURLs = urlsForUser(req.session.userId, urlDataBase);
   if (userURLs[req.params.shortURL]) {
     delete userURLs[req.params.shortURL];
     delete urlDataBase[req.params.shortURL];
     res.redirect("/u");
   } else {
-    res.statusCode = 420;
-    res.send("ARE YOU HIGH ?!");
+    res.statusCode = 405;
+    res.send("METHOD NOT ALLOWED");
   }
 });
 

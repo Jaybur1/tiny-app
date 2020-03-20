@@ -34,9 +34,9 @@ router.get("/u/:shortURL", urlsRouter);
 
 //handle shorturl edit
 router.get("/u/:shortURL/update", urlsRouter);
-router.post("/u/:shortURL/update", urlsRouter);
+router.put("/u/:shortURL", urlsRouter);
 
 //handle delete
-router.post("/u/:shortURL/delete", urlsRouter);
+router.delete("/u/:shortURL", urlsRouter);
 
 module.exports = router;

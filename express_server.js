@@ -3,10 +3,12 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const cookieSession = require("cookie-session");
 const indexRouter = require("./routes/index");
+const methodOverride = require("method-override");
 
 const app = express();
 const PORT = 8080;
 
+app.use(methodOverride("_method"));
 app.use("/public/images/", express.static("./public/images"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(

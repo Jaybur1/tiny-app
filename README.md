@@ -3,8 +3,10 @@
 TinyApp is a full stack web application built with Node and Express that allows users to shorten long URLs (à la bit.ly).
 
 for example for given [http://lighthouselabs.ca](http://lighthouselabs.ca) => the app will generate somthing  similar to http://localhost/u/R4dre3.
+
 ****
 ## Final Product
+
 1) Index page:
 
 !["tiny app index page"](/public/images/indexPage.png)
@@ -29,10 +31,10 @@ for example for given [http://lighthouselabs.ca](http://lighthouselabs.ca) => th
 
 !["tiny app urls page"](/public/images/editUrlPage.png)
 
-
-
 ****
+
 ## How to use:
+
   1) Clone this repository.
 
   2) `cd` to the cloned folder.
@@ -47,8 +49,8 @@ for example for given [http://lighthouselabs.ca](http://lighthouselabs.ca) => th
 
   7) Have fun =)).
 
-
 ***
+
 ## Dependencies:
 
 - Node.js
@@ -57,6 +59,8 @@ for example for given [http://lighthouselabs.ca](http://lighthouselabs.ca) => th
 - bcrypt
 - body-parser
 - cookie-session
+- method-override
+
 *****
 
   This app wa created for learning purposes during my bootcamp at [lighthouse labs](http://lighthouselabs.ca).
